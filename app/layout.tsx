@@ -1,15 +1,58 @@
-import { Geist, Geist_Mono } from "next/font/google"
+import {
+  Geist,
+  Instrument_Sans,
+  Inter_Tight,
+  Manrope,
+  Plus_Jakarta_Sans,
+  Space_Mono,
+} from "next/font/google"
 
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils"
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'})
-
-const fontMono = Geist_Mono({
+const manrope = Manrope({
   subsets: ["latin"],
-  variable: "--font-mono",
+  variable: "--font-manrope",
+  display: "swap",
 })
+
+const geist = Geist({
+  subsets: ["latin"],
+  variable: "--font-geist",
+  display: "swap",
+})
+
+const instrument = Instrument_Sans({
+  subsets: ["latin"],
+  variable: "--font-instrument",
+  display: "swap",
+})
+
+const jakarta = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  variable: "--font-jakarta",
+  display: "swap",
+})
+
+const interTight = Inter_Tight({
+  subsets: ["latin"],
+  variable: "--font-inter-tight",
+  display: "swap",
+})
+
+const spaceMono = Space_Mono({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-space-mono",
+  display: "swap",
+})
+
+export const metadata = {
+  title: "HireLoop — Find Your Dream Job Today",
+  description:
+    "HireLoop connects top talent with world-class companies. Browse thousands of curated opportunities and land your next role — faster.",
+}
 
 export default function RootLayout({
   children,
@@ -20,9 +63,17 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={cn("antialiased", fontMono.variable, "font-sans", geist.variable)}
+      className={cn(
+        "font-sans antialiased",
+        manrope.variable,
+        geist.variable,
+        instrument.variable,
+        jakarta.variable,
+        interTight.variable,
+        spaceMono.variable
+      )}
     >
-      <body>
+      <body className="bg-[#010103] text-white">
         <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
