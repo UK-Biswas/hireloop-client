@@ -133,3 +133,23 @@
     @apply font-sans;
     }
 }
+
+@keyframes globe-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -12px, 0);
+  }
+}
+
+.animate-globe-drift {
+  animation: globe-drift 16s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-globe-drift {
+    animation: none;
+  }
+}

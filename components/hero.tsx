@@ -1,4 +1,3 @@
-import Image from "next/image"
 import Link from "next/link"
 import {
   BriefcaseBusiness,
@@ -11,7 +10,6 @@ import {
 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
-import heroParticles from "@/app/images/hero-particles.png"
 
 const trendingRoles = [
   { label: "Product Designer", href: "/jobs?q=product-designer" },
@@ -29,20 +27,6 @@ const stats = [
 export function Hero() {
   return (
     <section className="relative isolate overflow-hidden pb-20 sm:pb-28 lg:pb-[72px]">
-      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute -top-48 left-1/2 h-[640px] w-[min(1200px,140vw)] -translate-x-1/2 rounded-full bg-[#5c53fe]/20 blur-[180px]" />
-        <div className="absolute top-[520px] left-1/2 h-[980px] w-[min(1100px,150vw)] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(92,83,254,0.65)_0%,rgba(92,83,254,0.22)_38%,rgba(92,83,254,0)_70%)] blur-[60px]" />
-        <Image
-          src={heroParticles}
-          alt=""
-          width={1180}
-          height={731}
-          aria-hidden
-          className="absolute top-[420px] left-1/2 w-[min(1180px,130vw)] max-w-none -translate-x-1/2 opacity-60 blur-[2px]"
-        />
-        <div className="absolute inset-x-0 bottom-0 h-72 bg-gradient-to-b from-transparent to-[#010103]" />
-      </div>
-
       <div className="mx-auto w-full max-w-[1440px] px-5 pt-20 sm:px-8 sm:pt-28 lg:px-[60px] lg:pt-[176px]">
         <div className="mx-auto flex w-full max-w-[784px] flex-col items-center gap-8 lg:gap-12">
           <div className="flex flex-col items-center gap-7 sm:gap-8">
