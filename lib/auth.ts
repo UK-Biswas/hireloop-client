@@ -11,6 +11,42 @@ export const auth = betterAuth({
     emailAndPassword: {
         enabled: true,
     },
+    user: {
+        additionalFields: {
+            role: {
+                type: "string",
+                required: true,
+                defaultValue: "seeker",
+                input: true,
+                validator: {
+                    input: {
+                        "~standard": {
+                            version: 1 as const,
+                            vendor: "hireloop",
+                            validate(value: unknown) {
+                                if (
+                                    value === "seeker" ||
+                                    value === "recruiter" ||
+                                    value === "admin"
+                                ) {
+                                    return { value };
+                                }
+
+                                return {
+                                    issues: [
+                                        {
+                                            message:
+                                                "Role must be seeker, recruiter, or admin.",
+                                        },
+                                    ],
+                                };
+                            },
+                        },
+                    },
+                },
+            },
+        },
+    },
     socialProviders: {
         google: {
             clientId: process.env.GOOGLE_CLIENT_ID as string,

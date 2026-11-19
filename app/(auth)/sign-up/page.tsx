@@ -13,7 +13,7 @@ export default function SignUpPage() {
     <AuthShell
       mode="sign-up"
       title="Create your account"
-      description="Set up a profile in minutes and let the right roles find you."
+      description="Three minutes to set up. Matches start arriving today."
       footer={
         <>
           Already have an account?{" "}

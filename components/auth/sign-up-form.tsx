@@ -2,7 +2,15 @@
 
 import * as React from "react"
 import { useRouter } from "next/navigation"
-import { ArrowRight, Loader2, LockKeyhole, Mail, UserRound } from "lucide-react"
+import {
+  ArrowRight,
+  Loader2,
+  LockKeyhole,
+  Mail,
+  ShieldCheck,
+  UserRound,
+  UsersRound,
+} from "lucide-react"
 
 import { authInputClass, AuthField } from "@/components/auth/auth-field"
 import { PasswordInput } from "@/components/auth/password-input"
@@ -12,9 +20,30 @@ import { Input } from "@/components/ui/input"
 import { authClient } from "@/lib/auth-client"
 import { cn } from "@/lib/utils"
 
+const roles = [
+  {
+    value: "seeker",
+    label: "Job Seeker",
+    icon: UserRound,
+  },
+  {
+    value: "recruiter",
+    label: "Recruiter",
+    icon: UsersRound,
+  },
+  {
+    value: "admin",
+    label: "Admin",
+    icon: ShieldCheck,
+  },
+] as const
+
+type UserRole = (typeof roles)[number]["value"]
+
 type SignUpValues = {
   name: string
   email: string
+  role: UserRole
   password: string
   confirmPassword: string
   acceptedTerms: boolean
@@ -26,6 +55,7 @@ export function SignUpForm() {
   const [isSubmitting, setIsSubmitting] = React.useState(false)
   const [error, setError] = React.useState<string | null>(null)
   const [passwordsMatch, setPasswordsMatch] = React.useState(true)
+  const [role, setRole] = React.useState<UserRole>("seeker")
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -35,6 +65,7 @@ export function SignUpForm() {
     const values: SignUpValues = {
       name: String(formData.get("name") ?? ""),
       email: String(formData.get("email") ?? ""),
+      role: String(formData.get("role") ?? "seeker") as UserRole,
       password: String(formData.get("password") ?? ""),
       confirmPassword: String(formData.get("confirmPassword") ?? ""),
       acceptedTerms: formData.get("terms") === "on",
@@ -52,6 +83,7 @@ export function SignUpForm() {
     const { error: signUpError } = await authClient.signUp.email({
       name: values.name,
       email: values.email,
+      role: values.role,
       password: values.password,
       callbackURL: "/",
     })
@@ -81,6 +113,34 @@ export function SignUpForm() {
       }}
       className="flex flex-col gap-5"
     >
+      <fieldset className="flex flex-col gap-2">
+        <legend className="font-manrope text-[13px] font-medium text-white/80">
+          Joining HireLoop as
+        </legend>
+        <div className="grid grid-cols-3 gap-2">
+          {roles.map((option) => {
+            const Icon = option.icon
+
+            return (
+              <label key={option.value} className="cursor-pointer">
+                <input
+                  type="radio"
+                  name="role"
+                  value={option.value}
+                  checked={role === option.value}
+                  onChange={() => setRole(option.value)}
+                  className="peer sr-only"
+                />
+                <span className="flex h-16 flex-col items-center justify-center gap-1.5 rounded-xl border border-white/10 bg-[#101010] font-manrope text-[13px] font-medium text-white/60 transition-colors hover:border-white/20 hover:text-white peer-checked:border-[#5c53fe] peer-checked:bg-[#5c53fe]/10 peer-checked:text-white peer-checked:shadow-[0_0_24px_-8px_rgba(92,83,254,0.8)] peer-focus-visible:ring-3 peer-focus-visible:ring-[#5c53fe]/30">
+                  <Icon aria-hidden className="size-4 shrink-0" />
+                  {option.label}
+                </span>
+              </label>
+            )
+          })}
+        </div>
+      </fieldset>
+
       <AuthField id="sign-up-name" label="Full name">
         <div className="relative">
           <UserRound
