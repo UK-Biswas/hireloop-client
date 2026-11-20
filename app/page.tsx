@@ -1,6 +1,7 @@
 import Image from "next/image"
 
 import heroGlobe from "@/app/images/globe.png"
+import { Cta } from "@/components/cta"
 import { Features } from "@/components/features"
 import { Hero } from "@/components/hero"
 import { JobDiscovery } from "@/components/job-discovery"
@@ -34,6 +35,7 @@ export default function Page() {
         <JobDiscovery />
         <Features />
         <Pricing />
+        <Cta />
       </main>
     </div>
   )
