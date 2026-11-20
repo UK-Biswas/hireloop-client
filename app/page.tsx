@@ -4,6 +4,7 @@ import heroGlobe from "@/app/images/globe.png"
 import { Features } from "@/components/features"
 import { Hero } from "@/components/hero"
 import { JobDiscovery } from "@/components/job-discovery"
+import { Pricing } from "@/components/pricing"
 import { SiteHeader } from "@/components/site-header"
 
 export default function Page() {
@@ -32,6 +33,7 @@ export default function Page() {
         <Hero />
         <JobDiscovery />
         <Features />
+        <Pricing />
       </main>
     </div>
   )
