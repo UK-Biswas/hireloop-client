@@ -2,6 +2,7 @@ import Image from "next/image"
 
 import heroGlobe from "@/app/images/globe.png"
 import { Hero } from "@/components/hero"
+import { JobDiscovery } from "@/components/job-discovery"
 import { SiteHeader } from "@/components/site-header"
 
 export default function Page() {
@@ -28,6 +29,7 @@ export default function Page() {
       <SiteHeader />
       <main>
         <Hero />
+        <JobDiscovery />
       </main>
     </div>
   )

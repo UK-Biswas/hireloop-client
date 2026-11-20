@@ -1,9 +1,11 @@
 import {
   Geist,
   Instrument_Sans,
+  Inter,
   Inter_Tight,
   Manrope,
   Plus_Jakarta_Sans,
+  Rethink_Sans,
   Space_Mono,
 } from "next/font/google"
 
@@ -48,6 +50,18 @@ const spaceMono = Space_Mono({
   display: "swap",
 })
 
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+})
+
+const rethink = Rethink_Sans({
+  subsets: ["latin"],
+  variable: "--font-rethink",
+  display: "swap",
+})
+
 export const metadata = {
   title: "HireLoop — Find Your Dream Job Today",
   description:
@@ -70,7 +84,9 @@ export default function RootLayout({
         instrument.variable,
         jakarta.variable,
         interTight.variable,
-        spaceMono.variable
+        spaceMono.variable,
+        inter.variable,
+        rethink.variable
       )}
     >
       <body className="bg-[#010103] text-white">
