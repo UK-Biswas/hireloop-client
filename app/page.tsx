@@ -6,6 +6,7 @@ import { Features } from "@/components/features"
 import { Hero } from "@/components/hero"
 import { JobDiscovery } from "@/components/job-discovery"
 import { Pricing } from "@/components/pricing"
+import { SiteFooter } from "@/components/site-footer"
 import { SiteHeader } from "@/components/site-header"
 
 export default function Page() {
@@ -37,6 +38,7 @@ export default function Page() {
         <Pricing />
         <Cta />
       </main>
+      <SiteFooter />
     </div>
   )
 }

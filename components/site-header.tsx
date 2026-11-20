@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation"
 import { LogOut, Menu } from "lucide-react"
 
 import logo from "@/app/images/logo.png"
+import { SectionLink } from "@/components/section-link"
 import { buttonVariants } from "@/components/ui/button"
 import {
   Sheet,
@@ -18,12 +19,13 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet"
 import { authClient, useSession } from "@/lib/auth-client"
+import { scrollToSection } from "@/lib/scroll-to-section"
 import { cn } from "@/lib/utils"
 
 const navLinks = [
-  { label: "Browse Jobs", href: "/jobs" },
-  { label: "Company", href: "/company" },
-  { label: "Pricing", href: "/pricing" },
+  { label: "Browse Jobs", sectionId: "jobs" },
+  { label: "Company", sectionId: "company" },
+  { label: "Pricing", sectionId: "pricing" },
 ]
 
 function UserAvatar({
@@ -67,6 +69,8 @@ export function SiteHeader() {
   const router = useRouter()
   const { data: session, isPending } = useSession()
   const [isSigningOut, setIsSigningOut] = React.useState(false)
+  const [isMobileNavOpen, setIsMobileNavOpen] = React.useState(false)
+  const pendingSectionRef = React.useRef<string | null>(null)
 
   const user = session?.user
   const displayName =
@@ -104,13 +108,13 @@ export function SiteHeader() {
           >
             <div className="flex items-center gap-10">
               {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="font-geist text-base leading-[1.8] tracking-[-0.2px] text-white transition-opacity hover:opacity-70"
+                <SectionLink
+                  key={link.sectionId}
+                  sectionId={link.sectionId}
+                  className="cursor-pointer font-geist text-base leading-[1.8] tracking-[-0.2px] text-white transition-opacity hover:opacity-70 focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:outline-none"
                 >
                   {link.label}
-                </Link>
+                </SectionLink>
               ))}
             </div>
 
@@ -191,7 +195,16 @@ export function SiteHeader() {
               </Link>
             )}
 
-            <Sheet>
+            <Sheet
+              open={isMobileNavOpen}
+              onOpenChange={setIsMobileNavOpen}
+              onOpenChangeComplete={(open) => {
+                if (open || !pendingSectionRef.current) return
+
+                scrollToSection(pendingSectionRef.current)
+                pendingSectionRef.current = null
+              }}
+            >
               <SheetTrigger
                 render={
                   <button
@@ -230,10 +243,11 @@ export function SiteHeader() {
                 >
                   {navLinks.map((link) => (
                     <SheetClose
-                      key={link.href}
-                      nativeButton={false}
-                      render={<Link href={link.href} />}
-                      className="rounded-xl px-3 py-3 font-manrope text-lg font-medium text-white transition-colors hover:bg-white/[0.06]"
+                      key={link.sectionId}
+                      className="cursor-pointer rounded-xl px-3 py-3 text-left font-manrope text-lg font-medium text-white transition-colors hover:bg-white/[0.06]"
+                      onClick={() => {
+                        pendingSectionRef.current = link.sectionId
+                      }}
                     >
                       {link.label}
                     </SheetClose>

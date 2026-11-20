@@ -63,8 +63,11 @@ const features: Feature[] = [
 
 export function Features() {
   return (
-    <section id="features" className="scroll-mt-24 bg-[#151516]">
-      <div className="mx-auto flex w-full max-w-[1440px] flex-col items-center gap-12 px-5 py-20 sm:px-8 sm:py-24 lg:gap-16 lg:px-[60px] lg:py-[120px]">
+    <section id="company" className="scroll-mt-24 bg-[#151516]">
+      <div
+        id="features"
+        className="mx-auto flex w-full max-w-[1440px] scroll-mt-24 flex-col items-center gap-12 px-5 py-20 sm:px-8 sm:py-24 lg:gap-16 lg:px-[60px] lg:py-[120px]"
+      >
         <SectionHeading
           eyebrow="features job"
           title="Everything you need to succeed"
@@ -72,10 +75,7 @@ export function Features() {
 
         <div className="grid w-full grid-cols-1 gap-x-6 gap-y-10 min-[480px]:grid-cols-2 lg:grid-cols-4 lg:gap-y-12">
           {features.map(({ icon: Icon, title, description }) => (
-            <div
-              key={title}
-              className="flex items-center gap-5 sm:gap-6"
-            >
+            <div key={title} className="flex items-center gap-5 sm:gap-6">
               <span className="flex size-[72px] shrink-0 items-center justify-center rounded-lg border border-white/10 bg-[linear-gradient(135deg,#010102_0%,#313131_100%)] lg:size-20">
                 <Icon
                   aria-hidden
