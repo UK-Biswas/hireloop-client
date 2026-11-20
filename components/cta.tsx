@@ -1,25 +1,9 @@
-"use client"
-
 import Image from "next/image"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
 
 import ctaGrid from "@/app/images/cta-grid.png"
-import { scrollToSection } from "@/lib/scroll-to-section"
 
 export function Cta() {
-  const router = useRouter()
-
-  const handlePricingClick = () => {
-    if (document.getElementById("pricing")) {
-      scrollToSection("pricing")
-      return
-    }
-
-    router.push("/")
-    setTimeout(() => scrollToSection("pricing"), 500)
-  }
-
   return (
     <section className="relative isolate overflow-hidden">
       <div
@@ -57,14 +41,12 @@ export function Cta() {
           >
             Create a free account
           </Link>
-
-          <button
-            type="button"
-            onClick={handlePricingClick}
+          <Link
+            href="/#pricing"
             className="inline-flex h-[58px] w-full items-center justify-center rounded-xl border border-[#d7d7d7]/30 bg-[#0e0b16] px-6 font-manrope text-lg leading-[1.45] font-medium text-white shadow-[inset_0_0_10px_rgba(255,255,255,0.2)] transition-colors hover:bg-[#17121f] focus-visible:ring-2 focus-visible:ring-white/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#010103] focus-visible:outline-none sm:w-auto"
           >
             View pricing
-          </button>
+          </Link>
         </div>
       </div>
     </section>
