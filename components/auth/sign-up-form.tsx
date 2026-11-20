@@ -18,7 +18,10 @@ import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input"
 import { authClient } from "@/lib/auth-client"
+import { isValidEmail, normalizeEmail } from "@/lib/email"
 import { cn } from "@/lib/utils"
+
+const EMAIL_ERROR = "Enter a valid email address, like you@example.com."
 
 const roles = [
   {
@@ -54,6 +57,7 @@ export function SignUpForm() {
   const [isSubmitted, setIsSubmitted] = React.useState(false)
   const [isSubmitting, setIsSubmitting] = React.useState(false)
   const [error, setError] = React.useState<string | null>(null)
+  const [emailError, setEmailError] = React.useState<string | null>(null)
   const [passwordsMatch, setPasswordsMatch] = React.useState(true)
   const [role, setRole] = React.useState<UserRole>("seeker")
 
@@ -63,13 +67,27 @@ export function SignUpForm() {
 
     const formData = new FormData(event.currentTarget)
     const values: SignUpValues = {
-      name: String(formData.get("name") ?? ""),
-      email: String(formData.get("email") ?? ""),
+      name: String(formData.get("name") ?? "").trim(),
+      email: normalizeEmail(String(formData.get("email") ?? "")),
       role: String(formData.get("role") ?? "seeker") as UserRole,
       password: String(formData.get("password") ?? ""),
       confirmPassword: String(formData.get("confirmPassword") ?? ""),
       acceptedTerms: formData.get("terms") === "on",
     }
+
+    if (!isValidEmail(values.email)) {
+      setEmailError(EMAIL_ERROR)
+      setPasswordsMatch(true)
+      setIsSubmitted(false)
+      const emailInput = event.currentTarget.elements.namedItem("email")
+      if (emailInput instanceof HTMLInputElement) {
+        emailInput.value = values.email
+        emailInput.focus()
+      }
+      return
+    }
+
+    setEmailError(null)
 
     if (values.password !== values.confirmPassword) {
       setPasswordsMatch(false)
@@ -109,6 +127,9 @@ export function SignUpForm() {
       onInput={() => {
         if (error) {
           setError(null)
+        }
+        if (emailError) {
+          setEmailError(null)
         }
       }}
       className="flex flex-col gap-5"
@@ -159,7 +180,11 @@ export function SignUpForm() {
         </div>
       </AuthField>
 
-      <AuthField id="sign-up-email" label="Email address">
+      <AuthField
+        id="sign-up-email"
+        label="Email address"
+        error={emailError ?? undefined}
+      >
         <div className="relative">
           <Mail
             aria-hidden
@@ -172,6 +197,15 @@ export function SignUpForm() {
             autoComplete="email"
             placeholder="you@example.com"
             required
+            aria-invalid={Boolean(emailError)}
+            aria-describedby={emailError ? "sign-up-email-error" : undefined}
+            onBlur={(event) => {
+              const value = normalizeEmail(event.currentTarget.value)
+              event.currentTarget.value = value
+              if (value && !isValidEmail(value)) {
+                setEmailError(EMAIL_ERROR)
+              }
+            }}
             className={cn(authInputClass, "pl-11")}
           />
         </div>
